@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>스탬핏 사용 설명서 — 안드로이드</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #F9FAFB;
+    color: #111827;
+    line-height: 1.6;
+  }
+
+  /* 커버 */
+  .cover {
+    background: linear-gradient(135deg, #4F46E5 0%, #6366F1 50%, #818CF8 100%);
+    color: white;
+    padding: 60px 32px 48px;
+    text-align: center;
+  }
+  .cover-icon {
+    font-size: 56px;
+    margin-bottom: 16px;
+  }
+  .cover h1 {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+  .cover p {
+    font-size: 16px;
+    opacity: 0.85;
+    margin-bottom: 4px;
+  }
+  .cover .badge {
+    display: inline-block;
+    margin-top: 16px;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 13px;
+  }
+
+  /* 목차 */
+  .toc {
+    background: white;
+    margin: 24px 16px;
+    border-radius: 16px;
+    border: 1px solid #E5E7EB;
+    overflow: hidden;
+  }
+  .toc-title {
+    background: #4F46E5;
+    color: white;
+    padding: 14px 20px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .toc-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    border-bottom: 1px solid #F3F4F6;
+    text-decoration: none;
+    color: #374151;
+    font-size: 14px;
+    transition: background 0.15s;
+  }
+  .toc-item:last-child { border-bottom: none; }
+  .toc-item:hover { background: #F9FAFB; }
+  .toc-num {
+    width: 24px;
+    height: 24px;
+    background: #EEF2FF;
+    color: #4F46E5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  /* 섹션 */
+  .section {
+    margin: 0 16px 24px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #4F46E5;
+  }
+  .section-num {
+    width: 36px;
+    height: 36px;
+    background: #4F46E5;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #111827;
+  }
+
+  /* 카드 */
+  .card {
+    background: white;
+    border-radius: 14px;
+    border: 1px solid #E5E7EB;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    background: #F9FAFB;
+    border-bottom: 1px solid #F3F4F6;
+    font-size: 15px;
+    font-weight: 600;
+    color: #374151;
+  }
+  .card-body {
+    padding: 16px;
+  }
+
+  /* 스텝 */
+  .step {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .step:last-child { margin-bottom: 0; }
+  .step-num {
+    width: 28px;
+    height: 28px;
+    background: #EEF2FF;
+    color: #4F46E5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .step-content { flex: 1; }
+  .step-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 4px;
+  }
+  .step-desc {
+    font-size: 13px;
+    color: #6B7280;
+    line-height: 1.6;
+  }
+
+  /* 팁 박스 */
+  .tip {
+    display: flex;
+    gap: 10px;
+    background: #FFFBEB;
+    border: 1px solid #FDE68A;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-top: 12px;
+  }
+  .tip-icon { font-size: 16px; flex-shrink: 0; }
+  .tip-text { font-size: 13px; color: #92400E; line-height: 1.6; }
+
+  .info {
+    display: flex;
+    gap: 10px;
+    background: #EEF2FF;
+    border: 1px solid #C7D2FE;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-top: 12px;
+  }
+  .info-icon { font-size: 16px; flex-shrink: 0; }
+  .info-text { font-size: 13px; color: #3730A3; line-height: 1.6; }
+
+  .warn {
+    display: flex;
+    gap: 10px;
+    background: #FEF2F2;
+    border: 1px solid #FCA5A5;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-top: 12px;
+  }
+  .warn-icon { font-size: 16px; flex-shrink: 0; }
+  .warn-text { font-size: 13px; color: #991B1B; line-height: 1.6; }
+
+  /* 태그 */
+  .tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 500;
+    margin: 2px;
+  }
+  .tag-indigo { background: #EEF2FF; color: #4F46E5; }
+  .tag-amber  { background: #FFFBEB; color: #92400E; }
+  .tag-green  { background: #ECFDF5; color: #065F46; }
+  .tag-gray   { background: #F3F4F6; color: #374151; }
+
+  /* 버튼 모형 */
+  .btn-mock {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #4F46E5;
+    color: white;
+    border-radius: 10px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    margin: 4px 0;
+  }
+  .btn-mock-gray {
+    background: #F3F4F6;
+    color: #374151;
+  }
+  .btn-mock-amber {
+    background: #F59E0B;
+    color: white;
+  }
+
+  /* 화면 구조 다이어그램 */
+  .screen-mock {
+    background: #1E1B4B;
+    border-radius: 16px;
+    padding: 16px;
+    color: white;
+    margin: 12px 0;
+    font-size: 13px;
+  }
+  .screen-bar {
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .screen-section {
+    background: rgba(255,255,255,0.06);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+  }
+  .screen-label {
+    font-size: 10px;
+    opacity: 0.5;
+    margin-bottom: 4px;
+  }
+  .screen-content {
+    font-size: 13px;
+    opacity: 0.9;
+  }
+  .screen-nav {
+    display: flex;
+    justify-content: space-around;
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 8px;
+    margin-top: 8px;
+  }
+  .nav-item {
+    text-align: center;
+    font-size: 11px;
+    opacity: 0.7;
+  }
+  .nav-item.active {
+    opacity: 1;
+    color: #818CF8;
+  }
+
+  /* 구분선 */
+  .divider {
+    height: 1px;
+    background: #E5E7EB;
+    margin: 8px 0;
+  }
+
+  /* 플로우 */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .flow-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 0;
+  }
+  .flow-dot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .flow-circle {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #4F46E5;
+    margin-top: 5px;
+  }
+  .flow-line {
+    width: 2px;
+    flex: 1;
+    background: #E5E7EB;
+    min-height: 20px;
+    margin-top: 4px;
+  }
+  .flow-text {
+    font-size: 13px;
+    color: #374151;
+    padding-bottom: 12px;
+    flex: 1;
+  }
+  .flow-text strong { color: #111827; }
+
+  /* FAQ */
+  .faq-item {
+    border-bottom: 1px solid #F3F4F6;
+    padding: 14px 0;
+  }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-q {
+    font-size: 14px;
+    font-weight: 600;
+    color: #4F46E5;
+    margin-bottom: 8px;
+    display: flex;
+    gap: 8px;
+  }
+  .faq-q::before { content: "Q."; flex-shrink: 0; }
+  .faq-a {
+    font-size: 13px;
+    color: #6B7280;
+    line-height: 1.7;
+    padding-left: 24px;
+  }
+
+  /* 푸터 */
+  .footer {
+    text-align: center;
+    padding: 32px 16px;
+    color: #9CA3AF;
+    font-size: 12px;
+    line-height: 1.8;
+  }
+
+  /* 앱 설치 배너 */
+  .install-banner {
+    background: linear-gradient(135deg, #059669, #10B981);
+    color: white;
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+  }
+  .install-banner h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .install-banner p { font-size: 13px; opacity: 0.9; line-height: 1.6; }
+
+  h3 { font-size: 15px; font-weight: 600; color: #374151; margin-bottom: 10px; }
+  p { font-size: 14px; color: #6B7280; line-height: 1.7; margin-bottom: 8px; }
+  ul, ol { padding-left: 20px; }
+  li { font-size: 13px; color: #6B7280; line-height: 1.8; }
+  strong { color: #111827; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     커버
+══════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-icon">✦</div>
+  <h1>스탬핏</h1>
+  <p>공연 도장판 관리 앱</p>
+  <p>사용 설명서</p>
+  <div class="badge">📱 안드로이드(Android) 기준</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     목차
+══════════════════════════════════════════════ -->
+<div class="toc">
+  <div class="toc-title">📋 목차</div>
+  <a class="toc-item" href="#sec1">
+    <div class="toc-num">1</div> 앱 시작하기 (설치 &amp; 홈 화면 추가)
+  </a>
+  <a class="toc-item" href="#sec2">
+    <div class="toc-num">2</div> 화면 구조 한눈에 보기
+  </a>
+  <a class="toc-item" href="#sec3">
+    <div class="toc-num">3</div> 공연 등록하기
+  </a>
+  <a class="toc-item" href="#sec4">
+    <div class="toc-num">4</div> 도장판 만들기
+  </a>
+  <a class="toc-item" href="#sec5">
+    <div class="toc-num">5</div> 관람 일정 추가하기
+  </a>
+  <a class="toc-item" href="#sec6">
+    <div class="toc-num">6</div> 관람 확정하기 (도장 찍기)
+  </a>
+  <a class="toc-item" href="#sec7">
+    <div class="toc-num">7</div> 현황 탭 보는 법
+  </a>
+  <a class="toc-item" href="#sec8">
+    <div class="toc-num">8</div> 혜택 사용 처리하기
+  </a>
+  <a class="toc-item" href="#sec9">
+    <div class="toc-num">9</div> 설정 탭 활용하기
+  </a>
+  <a class="toc-item" href="#sec10">
+    <div class="toc-num">10</div> 자주 묻는 질문 (FAQ)
+  </a>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     1. 앱 시작하기
+══════════════════════════════════════════════ -->
+<div class="section" id="sec1">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <div class="section-title">앱 시작하기</div>
+  </div>
+
+  <!-- 홈 화면 추가 -->
+  <div class="install-banner">
+    <h3>📱 홈 화면에 추가하면 앱처럼 사용할 수 있어요</h3>
+    <p>스탬핏은 별도 설치 없이 브라우저에서 바로 쓸 수 있는 웹앱(PWA)입니다.<br>홈 화면에 추가하면 아이콘으로 실행할 수 있어요.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header">🤖 안드로이드 홈 화면 추가 방법 (Chrome 기준)</div>
+    <div class="card-body">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Chrome으로 스탬핏 접속</div>
+          <div class="step-desc">Chrome 주소창에 스탬핏 주소를 입력해 접속하세요.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Chrome 메뉴 열기</div>
+          <div class="step-desc">화면 우측 상단 점 세 개(⋮) 버튼을 탭합니다.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">"홈 화면에 추가" 또는 "앱 설치" 선택</div>
+          <div class="step-desc">메뉴에서 <strong>"홈 화면에 추가"</strong> 또는 <strong>"앱 설치"</strong>를 탭합니다. (Chrome 버전에 따라 표현이 다를 수 있어요)</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">추가 확인</div>
+          <div class="step-desc">팝업에서 <strong>"추가"</strong>를 탭하면 홈 화면에 스탬핏 아이콘이 생성됩니다.</div>
+        </div>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-text">홈 화면 아이콘을 탭하면 주소창 없이 앱처럼 실행됩니다. 데이터는 인터넷 없이도 유지됩니다.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 첫 실행 -->
+  <div class="card">
+    <div class="card-header">🚀 처음 실행 — 빠른 시작</div>
+    <div class="card-body">
+      <p>앱을 처음 열면 온보딩 화면이 나타납니다. 공연명만 입력하면 바로 시작할 수 있어요.</p>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">공연명 입력</div>
+          <div class="step-desc">입력창에 관람할 공연명을 입력하세요. (예: 뮤지컬 베르테르)</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">시작 방법 선택</div>
+          <div class="step-desc">
+            <span class="btn-mock">직접 설정하기</span> — 좌석 등급, 할인 권종, 도장판을 직접 설정<br>
+            <span class="btn-mock btn-mock-gray">빠른 시작</span> — 공연명만 입력하고 나중에 설정
+          </div>
+        </div>
+      </div>
+      <div class="info">
+        <div class="info-icon">ℹ️</div>
+        <div class="info-text"><strong>재관람 할인 유저라면 "직접 설정하기"를 추천합니다.</strong><br>좌석 등급과 할인 권종을 미리 설정해두면 일정 추가 시 금액이 자동 계산됩니다.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     2. 화면 구조
+══════════════════════════════════════════════ -->
+<div class="section" id="sec2">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <div class="section-title">화면 구조 한눈에 보기</div>
+  </div>
+
+  <div class="screen-mock">
+    <div class="screen-bar">
+      <span>● 베르테르</span>
+      <span>+</span>
+    </div>
+    <div class="screen-section">
+      <div class="screen-label">현재 탭 콘텐츠</div>
+      <div class="screen-content">플래너 / 현황 / 설정 탭 내용</div>
+    </div>
+    <div class="screen-section">
+      <div class="screen-content" style="opacity:0.5; font-size:11px;">스크롤 영역</div>
+    </div>
+    <div class="screen-nav">
+      <div class="nav-item active">📅<br>플래너</div>
+      <div class="nav-item">⠿<br>현황</div>
+      <div class="nav-item">⚙<br>설정</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">📱 각 탭 역할</div>
+    <div class="card-body">
+      <div class="step">
+        <div class="step-num">📅</div>
+        <div class="step-content">
+          <div class="step-title">플래너 탭</div>
+          <div class="step-desc">관람 일정 목록, 오늘의 확정 퀵카드, 특별 이벤트 필터, 빠른 계산기</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">⠿</div>
+        <div class="step-content">
+          <div class="step-title">현황 탭</div>
+          <div class="step-desc">도장판 진행 현황, 혜택 달성 상태, 총 관람 통계, 캐스트 통계</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">⚙</div>
+        <div class="step-content">
+          <div class="step-title">설정 탭</div>
+          <div class="step-desc">좌석 등급, 할인 권종, 배수 이벤트, 특별 이벤트, 데이터 관리</div>
+        </div>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-text">상단 탭바(● 베르테르)에서 공연을 전환할 수 있어요. 공연을 길게 누르면 수정·삭제·탭 순서 변경 메뉴가 나타납니다.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     3. 공연 등록하기
+══════════════════════════════════════════════ -->
+<div class="section" id="sec3">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <div class="section-title">공연 등록하기</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">🎭 새 공연 추가</div>
+    <div class="card-body">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">+ 버튼 탭</div>
+          <div class="step-desc">화면 우측 상단 <strong>+</strong> 버튼을 탭합니다.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">공연 정보 입력</div>
+          <div class="step-desc">
+            <strong>공연명</strong> (필수, 최대 30자)<br>
+            공연장 (선택)<br>
+            공연 기간 — 시작일 ~ 종료일 (선택)<br>
+            대표 색상 — 6가지 중 선택
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">저장</div>
+          <div class="step-desc">하단 <span class="btn-mock">저장</span> 버튼을 탭합니다.</div>
+        </div>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-text">공연 기간을 입력해두면 공연 종료 후 자동으로 보관 제안 알림이 나타납니다.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">✏️ 공연 수정 / 삭제 / 보관</div>
+    <div class="card-body">
+      <p>상단 공연 탭을 <strong>길게 누르면</strong> 메뉴가 나타납니다.</p>
+      <div style="margin: 8px 0;">
+        <span class="tag tag-indigo">수정</span>
+        <span class="tag tag-amber">보관</span>
+        <span class="tag tag-gray">탭 순서 변경</span>
+        <span class="tag" style="background:#FEF2F2;color:#991B1B;">삭제</span>
+      </div>
+      <div class="warn">
+        <div class="warn-icon">⚠️</div>
+        <div class="warn-text">공연 <strong>삭제</strong>는 관련된 모든 일정·도장판 데이터가 함께 삭제됩니다. 복구할 수 없으니 신중하게 선택하세요.<br>데이터를 보존하려면 <strong>보관</strong>을 사용하세요.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     4. 도장판 만들기
+══════════════════════════════════════════════ -->
+<div class="section" id="sec4">
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <div class="section-title">도장판 만들기</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">🟣 새 도장판 추가</div>
+    <div class="card-body">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">현황 탭 → "+ 새 판" 탭</div>
+          <div class="step-desc">현황 탭 도장판 섹션 우측의 <strong>+ 새 판</strong> 버튼을 탭합니다.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">판 이름 입력</div>
+          <div class="step-desc">기본값으로 "1판", "2판" 등이 자동 입력됩니다. 원하는 이름으로 변경 가능합니다.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">칸 수 설정</div>
+          <div class="step-desc">기본 <strong>7칸</strong>. 공연사 재관람 카드 칸 수에 맞게 조정하세요. (최소 1, 최대 50)</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">혜택 설정 (선택)</div>
+          <div class="step-desc">도장 N개 달성 시 받는 혜택을 입력합니다.<br>예: 5개 → 재관람 30% 할인쿠폰, 10개 → 무료 관람권</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">기존 도장 있으면 입력</div>
+          <div class="step-desc">앱 등록 전에 이미 찍혀있는 도장이 있다면 토글을 켜고 개수를 입력하세요.</div>
+        </div>
+      </div>
+      <div class="info">
+        <div class="info-icon">ℹ️</div>
+        <div class="info-text">두 번째 도장판부터는 이전 판의 칸 수와 혜택 설정이 자동으로 적용됩니다. "변경하기"를 탭하면 직접 수정할 수 있어요.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">🎨 도장판 색상 변경</div>
+    <div class="card-body">
+      <p>도장판마다 다른 색상을 지정할 수 있습니다. 도장판이 여러 개일 때 구분하기 좋아요.</p>
+      <p>판 추가 또는 편집 화면에서 12가지 색상 중 선택할 수 있습니다.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     5. 관람 일정 추가하기
+══════════════════════════════════════════════ -->
+<div class="section" id="sec5">
+  <div class="section-header">
+    <div class="section-num">5</div>
+    <div class="section-title">관람 일정 추가하기</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">📅 일정 추가 — 두 가지 방법</div>
+    <div class="card-body">
+      <h3>방법 A: FAB 버튼 탭 (상세 입력)</h3>
+      <p>플래너 탭 우측 하단 <strong>보라색 + 버튼</strong>을 탭하면 일정 추가 화면이 열립니다.</p>
+
+      <div class="divider" style="margin: 12px 0;"></div>
+
+      <h3>방법 B: FAB 버튼 길게 누르기 (빠른 추가)</h3>
+      <p>+ 버튼을 <strong>0.5초 이상 길게 누르면</strong> 마지막으로 사용한 좌석 등급·할인 권종이 자동 입력된 빠른 추가 화면이 열립니다.</p>
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-text">같은 공연을 반복 관람할 때는 <strong>길게 누르기</strong>를 활용하면 훨씬 빠르게 일정을 추가할 수 있어요.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">✍️ 일정 입력 항목</div>
+    <div class="card-body">
+      <div class="step">
+        <div class="step-num">①</div>
+        <div class="step-content">
+          <div class="step-title">언제 보시나요?</div>
+          <div class="step-desc">
+            <span class="btn-mock">오늘 봤어요</span> — 오늘 날짜 자동 설정 후 바로 확정으로 진행<br>
+            <span class="btn-mock btn-mock-gray">나중에 볼 예정</span> — 예정 날짜 직접 입력
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">②</div>
+        <div class="step-content">
+          <div class="step-title">날짜 / 회차 시간</div>
+          <div class="step-desc">관람 날짜를 선택합니다. 배수 이벤트 기간이면 자동으로 배수가 설정되고 안내 배너가 표시됩니다.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">③</div>
+        <div class="step-content">
+          <div class="step-title">좌석 등급 / 할인 권종</div>
+          <div class="step-desc">드롭다운에서 선택하면 <strong>정가 → 할인가 → 절약 금액</strong>이 자동 계산됩니다.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">④</div>
+        <div class="step-content">
+          <div class="step-title">나눔 관극 토글 (선택)</div>
+          <div class="step-desc">나눔 관극이라면 토글을 켜세요. 관람 기록은 남지만 도장은 적립되지 않습니다.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">⑤</div>
+        <div class="step-content">
+          <div class="step-title">캐스트 메모 (선택)</div>
+          <div class="step-desc">캐스트를 입력하면 이후 통계에서 확인할 수 있습니다. 이전 입력값이 자동완성으로 제안됩니다.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">⑥</div>
+        <div class="step-content">
+          <div class="step-title">특별 이벤트 태그 (선택)</div>
+          <div class="step-desc">싸인회, 하이터치회, 폴라로이드데이 등 이 회차의 특별 이벤트를 선택합니다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     6. 관람 확정하기
+══════════════════════════════════════════════ -->
+<div class="section" id="sec6">
+  <div class="section-header">
+    <div class="section-num">6</div>
+    <div class="section-title">관람 확정하기 (도장 찍기)</div>
+  </div>
+
+  <div class="info" style="margin-bottom: 12px;">
+    <div class="info-icon">📌</div>
+    <div class="info-text"><strong>언제 확정하나요?</strong><br>재관람 할인권으로 티켓을 수령하는 시점에 앱을 열어 확정하는 것을 권장합니다. 확정해야 도장이 도장판에 기록됩니다.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">✅ 오늘의 퀵카드로 빠르게 확정</div>
+    <div class="card-body">
+      <p>오늘 날짜의 미확정 일정이 있으면 <strong>플래너 탭 최상단</strong>에 퀵카드가 나타납니다.</p>
+      <div class="flow">
+        <div class="flow-item">
+          <div class="flow-dot"><div class="flow-circle"></div><div class="flow-line"></div></div>
+          <div class="flow-text">플래너 탭 최상단 <strong>오늘의 퀵카드</strong> 확인</div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-dot"><div class="flow-circle"></div><div class="flow-line"></div></div>
+          <div class="flow-text"><strong>"확정하기"</strong> 버튼 탭 → 관람 확정 화면 오픈</div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-dot"><div class="flow-circle"></div><div class="flow-line"></div></div>
+          <div class="flow-text">재관람표 제출 여부 체크 (재관람 권종일 때)</div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-dot"><div class="flow-circle"></div></div>
+          <div class="flow-text">하단 <strong>"확정하기"</strong> 버튼 탭 → 도장 자동 적립 완료 🎉</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">🎟️ 재관람 권종 유저 주의사항</div>
+    <div class="card-body">
+      <div class="step">
+        <div class="step-num">!</div>
+        <div class="step-content">
+          <div class="step-title">확인 사항 체크 필수</div>
+          <div class="step-desc">재관람 권종으로 예매한 일정은 확정 화면에서 <strong>"재관람표를 제출했어요"</strong>를 반드시 체크해야 확정 버튼이 활성화됩니다.</div>
+        </div>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-text">체크리스트는 재관람표를 제출하기 전에 확인용으로 사용하세요. 공연장 입장 전, 티켓 수령 시점에 앱을 여는 것을 권장합니다.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">↩️ 확정 취소</div>
+    <div class="card-body">
+      <p>확정 후 <strong>24시간 이내</strong>에만 취소할 수 있습니다.</p>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">일정 카드 ··· 메뉴 탭</div>
+          <div class="step-desc">확정된 일정 카드 우측 상단 ··· 버튼을 탭합니다.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">"확정 취소" 선택</div>
+          <div class="step-desc">24시간이 지났다면 메뉴에서 보이지 않습니다.</div>
+        </div>
+      </div>
+      <div class="warn">
+        <div class="warn-icon">⚠️</div>
+        <div class="warn-text">확정 취소 시 해당 일정으로 적립된 도장이 회수됩니다.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">🌀 배수 이벤트 (더블·트리플 적립)</div>
+    <div class="card-body">
+      <p>특정 기간 동안 도장을 2~5배로 적립하는 이벤트를 등록할 수 있습니다.</p>
+      <p>이벤트 기간의 날짜로 일정을 추가하면 배수가 <strong>자동으로 설정</strong>되고 안내 배너가 표시됩니다.</p>
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-text">배수 이벤트 등록은 <strong>설정 탭 → 배수 이벤트</strong>에서 할 수 있어요.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     7. 현황 탭
+══════════════════════════════════════════════ -->
+<div class="section" id="sec7">
+  <div class="section-header">
+    <div class="section-num">7</div>
+    <div class="section-title">현황 탭 보는 법</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">📊 현황 탭 구성 (위→아래)</div>
+    <div class="card-body">
+      <div class="step">
+        <div class="step-num">①</div>
+        <div class="step-content">
+          <div class="step-title">요약 카드</div>
+          <div class="step-desc">총 관람 횟수 / 다음 혜택까지 남은 도장 수 / 확정 일정 수 / 미사용 혜택 수</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">②</div>
+        <div class="step-content">
+          <div class="step-title">💡 FocusCard (추천 안내)</div>
+          <div class="step-desc">"1판에 2개만 더 찍으면 할인쿠폰 30%이에요" 형태로 가장 가까운 혜택을 강조합니다.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">③</div>
+        <div class="step-content">
+          <div class="step-title">도장판 카드</div>
+          <div class="step-desc">도장판별 진행 현황(채워진 칸 / 전체 칸)과 다음 혜택까지 남은 개수가 표시됩니다.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">④</div>
+        <div class="step-content">
+          <div class="step-title">혜택 현황</div>
+          <div class="step-desc">달성한 혜택과 미달성 혜택 목록. 달성한 혜택은 amber(노란) 배경으로 강조됩니다.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">⑤</div>
+        <div class="step-content">
+          <div class="step-title">더보기 (기본 접힘)</div>
+          <div class="step-desc">"더보기"를 탭하면 관람 비용 요약, 캐스트 통계, 배분 시뮬레이터가 나타납니다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">🎯 배분 시뮬레이터 사용법</div>
+    <div class="card-body">
+      <p>앞으로 N번 더 관람할 예정일 때 도장을 어떻게 배분하면 혜택을 가장 많이 받을 수 있는지 미리 확인할 수 있습니다.</p>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">현황 탭 → 더보기 → 배분 시뮬레이터</div>
+          <div class="step-desc">"배분 시뮬레이터" 버튼을 탭합니다.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">남은 관람 횟수 입력</div>
+          <div class="step-desc">앞으로 몇 번 더 볼 예정인지 입력합니다.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">결과 확인</div>
+          <div class="step-desc">도장판별로 몇 개가 추가되고 어떤 혜택을 달성할 수 있는지 보여줍니다.</div>
+        </div>
+      </div>
+      <div class="info">
+        <div class="info-icon">ℹ️</div>
+        <div class="info-text">시뮬레이터는 실제 데이터를 변경하지 않습니다. 순수하게 예측만 합니다.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">💰 금액 숨기기</div>
+    <div class="card-body">
+      <p>현황 탭 비용 섹션 우측 <strong>눈 아이콘(👁)</strong>을 탭하면 금액을 블러 처리할 수 있습니다.</p>
+      <p>스크린샷 촬영이나 화면 공유 시 금액이 노출되는 것을 방지할 수 있어요.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     8. 혜택 사용 처리
+══════════════════════════════════════════════ -->
+<div class="section" id="sec8">
+  <div class="section-header">
+    <div class="section-num">8</div>
+    <div class="section-title">혜택 사용 처리하기</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">⭐ 달성 혜택 사용 완료 처리</div>
+    <div class="card-body">
+      <p>도장을 N개 채워 혜택을 달성하면 현황 탭 혜택 현황에서 <span class="tag tag-amber">사용</span> 버튼이 나타납니다.</p>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">현황 탭 → 혜택 현황 확인</div>
+          <div class="step-desc">amber(노란) 배경의 달성된 혜택을 찾습니다.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">"사용" 버튼 탭</div>
+          <div class="step-desc">확인 팝업이 나타납니다. "확인"을 탭하면 사용 완료 처리됩니다.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">사용 날짜 자동 기록</div>
+          <div class="step-desc">사용 완료된 혜택은 회색 + 취소선으로 표시되고 날짜가 기록됩니다.</div>
+        </div>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-text">실수로 사용 처리했다면 "취소" 버튼으로 즉시 되돌릴 수 있어요.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">🎫 할인쿠폰 트래커</div>
+    <div class="card-body">
+      <p>혜택 이름에 <strong>"할인쿠폰"</strong> 또는 <strong>"할쿠"</strong>가 포함된 달성 혜택은 상단에 트래커로 자동 집계됩니다.</p>
+      <p>예: <code>🎫 할인쿠폰  1 / 3개 사용</code></p>
+      <div class="info">
+        <div class="info-icon">ℹ️</div>
+        <div class="info-text">대본집, 폴라로이드, OST 등 <strong>수집형 혜택</strong>은 "사용" 버튼이 표시되지 않습니다. 해당 키워드가 혜택 이름에 포함되면 자동으로 수집형으로 분류됩니다.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     9. 설정 탭
+══════════════════════════════════════════════ -->
+<div class="section" id="sec9">
+  <div class="section-header">
+    <div class="section-num">9</div>
+    <div class="section-title">설정 탭 활용하기</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">🎫 좌석 등급 설정</div>
+    <div class="card-body">
+      <p>등급명과 정가를 등록합니다. 일정 추가 시 드롭다운에서 선택하면 할인가가 자동 계산됩니다.</p>
+      <p>예: VIP – 130,000원 / R – 110,000원 / S – 90,000원</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">🏷️ 할인 권종 설정</div>
+    <div class="card-body">
+      <p>재관람 할인, 마티네 할인 등 할인 종류를 등록합니다.</p>
+      <div class="step">
+        <div class="step-num">①</div>
+        <div class="step-content">
+          <div class="step-title">할인 방식 선택</div>
+          <div class="step-desc">
+            <span class="tag tag-indigo">정률(%)</span> — 정가의 N% 할인<br>
+            <span class="tag tag-indigo">정액(원)</span> — N원 할인<br>
+            <span class="tag tag-indigo">직접 입력</span> — 최종 금액 직접 입력
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">②</div>
+        <div class="step-content">
+          <div class="step-title">재관람 여부 / 쿠폰 여부 체크</div>
+          <div class="step-desc"><strong>재관람</strong>: 체크하면 확정 시 "재관람표 제출" 체크리스트가 표시됩니다.<br><strong>쿠폰</strong>: 체크하면 확정 시 "쿠폰 제출" 체크리스트가 표시됩니다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">✨ 특별 이벤트 관리</div>
+    <div class="card-body">
+      <p>싸인회, 하이터치회, 럭키드로우 등 회차별 특별 이벤트 목록을 관리합니다.</p>
+      <p>기본 제공 프리셋 외에 직접 추가·수정·삭제할 수 있습니다. (이름 최대 20자)</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">⚡ 배수 이벤트 등록</div>
+    <div class="card-body">
+      <p>특정 기간 도장을 2~5배로 적립하는 이벤트를 등록합니다.</p>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">이벤트명 입력</div>
+          <div class="step-desc">예: 더블 위크, 오픈런 이벤트</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">기간 설정</div>
+          <div class="step-desc">시작일 (필수) / 종료일 (선택, 없으면 무기한)</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">배수 선택</div>
+          <div class="step-desc">x2 (더블) / x3 (트리플) / x4 / x5</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">💾 데이터 관리</div>
+    <div class="card-body">
+      <div class="step">
+        <div class="step-num">📤</div>
+        <div class="step-content">
+          <div class="step-title">JSON으로 내보내기</div>
+          <div class="step-desc">전체 데이터를 JSON 파일로 다운로드합니다. 기기 변경이나 백업에 활용하세요.<br>파일명: <code>stampit-backup-YYYY-MM-DD.json</code></div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">📥</div>
+        <div class="step-content">
+          <div class="step-title">JSON에서 가져오기</div>
+          <div class="step-desc">이전에 내보낸 JSON 파일을 불러옵니다. <strong>기존 데이터가 모두 교체됩니다.</strong></div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">🗑</div>
+        <div class="step-content">
+          <div class="step-title">모든 데이터 초기화</div>
+          <div class="step-desc">"삭제합니다"를 직접 입력해야 삭제 버튼이 활성화됩니다.</div>
+        </div>
+      </div>
+      <div class="warn">
+        <div class="warn-icon">⚠️</div>
+        <div class="warn-text">스탬핏은 서버 없이 기기에만 데이터를 저장합니다. <strong>정기적으로 JSON 내보내기로 백업</strong>해두는 것을 강력히 권장합니다.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     10. FAQ
+══════════════════════════════════════════════ -->
+<div class="section" id="sec10">
+  <div class="section-header">
+    <div class="section-num">10</div>
+    <div class="section-title">자주 묻는 질문</div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="faq-item">
+        <div class="faq-q">미확정과 확정의 차이가 뭔가요?</div>
+        <div class="faq-a">미확정은 예정된 일정만 기록된 상태입니다. 실제로 관람하고 재관람표 등을 제출한 후 <strong>확정</strong>해야 도장이 도장판에 기록됩니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">재관람 할인권을 사용했는데 도장판에 반영이 안 돼요.</div>
+        <div class="faq-a">일정을 추가한 후 반드시 <strong>확정</strong>까지 완료해야 합니다. 플래너 탭의 미확정 일정 카드 하단 "확정하기" 버튼을 탭하세요.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">공연이 여러 개인데 탭이 너무 많아졌어요.</div>
+        <div class="faq-a">공연 탭을 <strong>길게 누르면</strong> "보관" 메뉴가 나타납니다. 보관하면 탭에서 숨겨지고 데이터는 유지됩니다. 설정 탭에서 공연 탭 순서도 변경할 수 있어요.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">도장을 실수로 더 많이 찍었어요.</div>
+        <div class="faq-a">확정 후 <strong>24시간 이내</strong>라면 일정 카드 ··· 메뉴에서 "확정 취소"를 탭할 수 있습니다. 24시간이 지났다면 현황 탭 도장판의 ··· → "배분 조정"에서 수동으로 수정할 수 있어요.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">폰을 바꿔도 데이터가 유지되나요?</div>
+        <div class="faq-a">스탬핏은 기기에만 데이터를 저장합니다. 기기 변경 전에 반드시 <strong>설정 탭 → JSON으로 내보내기</strong>로 백업하고, 새 기기에서 가져오기를 하세요.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">나눔 관극은 어떻게 기록하나요?</div>
+        <div class="faq-a">일정 추가 시 <strong>"나눔 관극"</strong> 토글을 켜세요. 관람 기록은 남지만 도장판에 도장이 찍히지 않습니다. 일정 카드에 "나눔" 뱃지가 표시됩니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">특별 이벤트 필터는 어떻게 사용하나요?</div>
+        <div class="faq-a">플래너 탭 상단 이벤트 필터 칩에서 원하는 이벤트를 탭하면 해당 이벤트가 태그된 일정만 표시됩니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">빠른 계산기는 뭔가요?</div>
+        <div class="faq-a">일정 추가 없이 좌석 등급과 할인 권종을 선택해 할인가를 바로 확인할 수 있는 도구입니다. 플래너 탭 상단에서 "빠른 계산기"를 탭해 펼칠 수 있어요.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 푸터 -->
+<div class="footer">
+  <p>✦ 스탬핏 (Stampit)</p>
+  <p>뮤지컬·공연 다회 관람자를 위한 도장판 관리 앱</p>
+  <p style="margin-top: 8px; font-size: 11px; color: #D1D5DB;">
+    본 설명서는 안드로이드 Chrome 브라우저 기준으로 작성되었습니다.
+  </p>
+</div>
+
+</body>
+</html>
